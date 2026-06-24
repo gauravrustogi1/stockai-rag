@@ -7,17 +7,18 @@ from fastapi import Request
 templates = Jinja2Templates(directory="app/templates")
 
 class StockSymbol(BaseModel):
-    symbol: str
-    query: str
-    debugMode: bool
-
+    symbol1: str
+    symbol2: str
+    symbol3: str
 
 app = FastAPI()
 @app.get("/")
 async def root(request: Request):
     return templates.TemplateResponse(request, "index.html")
 
-@app.post("/fetch")
+@app.post("/load")
+
+
 async def fetch(request: StockSymbol):
     return getStockData(request.symbol)
 
