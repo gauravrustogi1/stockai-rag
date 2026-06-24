@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockAI RAG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background: #f5f5f5;
+        }
+        h1 { color: #2c3e50; }
+        p.description { color: #666; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea { height: 100px; resize: vertical; }
+        #radio-results { margin-top: 10px; }
+        .debug-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        button:hover { background: #1a252f; }
+        #output {
+            margin-top: 30px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            min-height: 100px;
+            display: none;
+        }
+        #loader { display: none; color: #888; }
+        #debug-panel {
+            margin-top: 20px;
+            background: #1e1e1e;
+            color: #00ff88;
+            padding: 16px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>StockAI RAG</h1>
+    <p class="description">
+        Your AI-powered stock research assistant. Search for stocks, ask questions,
+        and get answers grounded in real financial data.
+    </p>
+
+    <div class="form-group">
+        <label for="stock-search">Search Stocks</label>
+        <input type="text" id="stock-search" placeholder="Type 3+ characters to search e.g. Reliance, TCS..." />
+        <div id="radio-results"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="question">Your Question</label>
+        <textarea id="question" placeholder="e.g. Is this stock a good buy right now? What does the revenue trend look like?"></textarea>
+    </div>
+
+    <div class="debug-row">
+        <input type="checkbox" id="debug-mode" />
+        <label for="debug-mode" style="margin:0">Debug Mode</label>
+    </div>
+
+    <button id="analyse-btn" onclick="fetchStockData();">Analyse</button>
+
+    <div id="loader">⏳ Fetching data...</div>
+
+    <div id="output"></div>
+
+    <div id="debug-panel"></div>
+
+    <script>
+        // Your Step 3 JavaScript goes here
+        function fetchStockData()
+        {
+            symName = document.getElementById('stock-search').value
+            question = document.getElementById('question').value
+            debugging = document.getElementById('debug-mode').checked
+            document.getElementById('loader').style.display = 'block'
+            fetch('http://localhost:8000/fetch', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                , body: JSON.stringify({
+                    'symbol': symName
+                    , 'query': question
+                    , 'debugMode': debugging
+                })
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(JSON.stringify(data, null, 4));
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('output').style.display = 'block';
+                document.getElementById('output').innerHTML = '<pre>'+JSON.stringify(data, null, 4)+'</pre>';
+
+            })
+
+
+
+
+        }
+    </script>
+
+</body>
+</html>
