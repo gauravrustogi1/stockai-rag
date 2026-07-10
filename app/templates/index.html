@@ -383,9 +383,9 @@
     // YOUR TASK: wire this to POST /load
     async function fetchStockData()
         {
-            alert(selectedSymbol1);
-            alert(selectedSymbol2);
-            alert(selectedSymbol3);
+            // alert(selectedSymbol1);
+            // alert(selectedSymbol2);
+            // alert(selectedSymbol3);
             document.getElementById('fetch-loader').style.display = 'block'
             fetch('http://localhost:8000/load', {
                 method: 'POST',
@@ -413,8 +413,30 @@
     // ─── Ask Question ─────────────────────────────────────────────────
     // YOUR TASK: wire this to POST /ask
     async function askQuestion() {
-        // your JS goes here
-    }
+    const question = document.getElementById('question').value.trim();
+    const debugMode = document.getElementById('debug-mode').checked;
+    if (!question) return;
+
+    document.getElementById('answer-loader').style.display = 'block';
+    document.getElementById('answer-btn').disabled = true;
+
+    const response = await fetch('http://localhost:8000/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, debugMode })
+    });
+
+    const data = await response.json();
+    document.getElementById('answer-loader').style.display = 'none';
+    document.getElementById('answer-btn').disabled = false;
+    document.getElementById('question').value = '';
+
+    const debugInfo = debugMode && data.debugChunks.length
+        ? JSON.stringify(data.debugChunks, null, 2)
+        : null;
+
+    appendAnswer(question, data.answer, debugInfo);
+}
 
 
 </script>

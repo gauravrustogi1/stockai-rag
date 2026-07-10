@@ -42,6 +42,7 @@ multidict==6.7.1
 multitasking==0.0.13
 numpy==2.5.0
 oauthlib==3.3.1
+ollama==0.6.2
 onnxruntime==1.27.0
 opentelemetry-api==1.43.0
 opentelemetry-exporter-otlp-proto-common==1.43.0
@@ -53,6 +54,7 @@ orjson==3.11.9
 overrides==7.7.0
 packaging==26.2
 pandas==3.0.3
+pandas-stubs==3.0.3.260530
 peewee==4.1.0
 platformdirs==4.10.0
 propcache==0.5.2

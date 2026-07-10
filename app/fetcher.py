@@ -12,8 +12,8 @@ def buildStockData(stock):
     fiftyTwoWeekLow = stock.info.get('fiftyTwoWeekLow')
     marketCap = stock.info.get('marketCap')
     news = getStockNews(stock)
-    recommendations = stock.recommendations.to_string()
-    financials = stock.financials.to_string()
+    recommendations = stock.recommendations
+    financials = stock.financials
     return {
         'summary': summary,
         'currentPrice': currentPrice,
