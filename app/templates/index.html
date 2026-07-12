@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockAI RAG</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -20,9 +24,21 @@
             margin: 0 auto;
         }
 
-        header { margin-bottom: 32px; }
-        header h1 { font-size: 28px; color: #00e5ff; letter-spacing: 1px; }
-        header p { color: #888; margin-top: 8px; font-size: 14px; }
+        header {
+            margin-bottom: 32px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            color: #00e5ff;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: #888;
+            margin-top: 8px;
+            font-size: 14px;
+        }
 
         .card {
             background: #1a1d27;
@@ -47,7 +63,9 @@
             margin-bottom: 20px;
         }
 
-        .stock-search-wrap { position: relative; }
+        .stock-search-wrap {
+            position: relative;
+        }
 
         .stock-search-wrap label {
             display: block;
@@ -102,12 +120,23 @@
             gap: 2px;
         }
 
-        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
 
-        .dropdown-item:hover { background: #252836; }
+        .dropdown-item:hover {
+            background: #252836;
+        }
 
-        .dropdown-item .ticker { color: #00e5ff; font-weight: bold; font-size: 12px; }
-        .dropdown-item .name { color: #ccc; }
+        .dropdown-item .ticker {
+            color: #00e5ff;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .dropdown-item .name {
+            color: #ccc;
+        }
 
         .selected-stock {
             margin-top: 8px;
@@ -126,13 +155,28 @@
             transition: opacity 0.2s;
         }
 
-        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
 
-        .btn-primary { background: #00e5ff; color: #0f1117; }
-        .btn-primary:hover:not(:disabled) { opacity: 0.85; }
+        .btn-primary {
+            background: #00e5ff;
+            color: #0f1117;
+        }
 
-        .btn-secondary { background: #2a2d3e; color: #e0e0e0; }
-        .btn-secondary:hover:not(:disabled) { background: #353849; }
+        .btn-primary:hover:not(:disabled) {
+            opacity: 0.85;
+        }
+
+        .btn-secondary {
+            background: #2a2d3e;
+            color: #e0e0e0;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #353849;
+        }
 
         .fetch-row {
             display: flex;
@@ -145,11 +189,24 @@
             color: #888;
         }
 
-        #fetch-status.success { color: #00e57a; }
-        #fetch-status.error { color: #ff5252; }
+        #fetch-status.success {
+            color: #00e57a;
+        }
 
-        .qa-section { opacity: 0.4; pointer-events: none; transition: opacity 0.3s; }
-        .qa-section.unlocked { opacity: 1; pointer-events: all; }
+        #fetch-status.error {
+            color: #ff5252;
+        }
+
+        .qa-section {
+            opacity: 0.4;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .qa-section.unlocked {
+            opacity: 1;
+            pointer-events: all;
+        }
 
         textarea {
             height: 90px;
@@ -173,11 +230,21 @@
             cursor: pointer;
         }
 
-        input[type="checkbox"] { accent-color: #00e5ff; cursor: pointer; }
+        input[type="checkbox"] {
+            accent-color: #00e5ff;
+            cursor: pointer;
+        }
 
-        .answer-history { display: flex; flex-direction: column; gap: 16px; }
+        .answer-history {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-        .qa-pair { border-left: 3px solid #00e5ff; padding-left: 16px; }
+        .qa-pair {
+            border-left: 3px solid #00e5ff;
+            padding-left: 16px;
+        }
 
         .qa-pair .question {
             font-size: 13px;
@@ -222,7 +289,8 @@
 
     <header>
         <h1>⚡ StockAI RAG</h1>
-        <p>AI-powered stock research assistant. Select two stocks, ask anything — comparisons, fundamentals, news, trends.</p>
+        <p>AI-powered stock research assistant. Select two stocks, ask anything — comparisons, fundamentals, news,
+            trends.</p>
     </header>
 
     <!-- Step 1: Stock Selection -->
@@ -232,21 +300,21 @@
 
             <div class="stock-search-wrap">
                 <label>Stock 1</label>
-                <input type="text" id="stock1-input" placeholder="Type to search e.g. Reliance..." autocomplete="off" />
+                <input type="text" id="stock1-input" placeholder="Type to search e.g. Reliance..." autocomplete="off"/>
                 <div class="dropdown" id="stock1-dropdown"></div>
                 <div class="selected-stock" id="stock1-selected"></div>
             </div>
 
             <div class="stock-search-wrap">
                 <label>Stock 2</label>
-                <input type="text" id="stock2-input" placeholder="Type to search e.g. TCS..." autocomplete="off" />
+                <input type="text" id="stock2-input" placeholder="Type to search e.g. TCS..." autocomplete="off"/>
                 <div class="dropdown" id="stock2-dropdown"></div>
                 <div class="selected-stock" id="stock2-selected"></div>
             </div>
 
             <div class="stock-search-wrap">
                 <label>Stock 3</label>
-                <input type="text" id="stock3-input" placeholder="Type to search e.g. Infosys..." autocomplete="off" />
+                <input type="text" id="stock3-input" placeholder="Type to search e.g. Infosys..." autocomplete="off"/>
                 <div class="dropdown" id="stock3-dropdown"></div>
                 <div class="selected-stock" id="stock3-selected"></div>
             </div>
@@ -270,13 +338,14 @@
         <hr class="divider" id="qa-divider" style="display:none">
 
         <!-- Question input always at bottom -->
-        <textarea id="question" placeholder="e.g. Compare TCS and Reliance on revenue growth. Is either a good buy right now?"></textarea>
+        <textarea id="question"
+                  placeholder="e.g. Compare TCS and Reliance on revenue growth. Is either a good buy right now?"></textarea>
 
         <div class="qa-controls">
             <button class="btn btn-primary" id="answer-btn" onclick="askQuestion()">Answer</button>
             <div id="answer-loader" class="loader">⏳ Thinking...</div>
             <label class="debug-toggle">
-                <input type="checkbox" id="debug-mode" /> Debug mode
+                <input type="checkbox" id="debug-mode"/> Debug mode
             </label>
         </div>
 
@@ -284,6 +353,7 @@
     </div>
 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <script>
     // ─── State ───────────────────────────────────────────────────────
     let selectedSymbol1 = null;
@@ -299,7 +369,10 @@
         input.addEventListener('input', () => {
             clearTimeout(debounceTimer);
             const query = input.value.trim();
-            if (query.length < 3) { dropdown.style.display = 'none'; return; }
+            if (query.length < 3) {
+                dropdown.style.display = 'none';
+                return;
+            }
             debounceTimer = setTimeout(() => searchStocks(query, dropdown, input, onSelect), 300);
         });
 
@@ -314,11 +387,11 @@
         // TODO Day 4: replace with real Yahoo Finance search API call
         // For now — show a placeholder so wiring is testable
         const mockResults = [
-            { symbol: 'RELIANCE.NS', name: 'Reliance Industries Ltd' },
-            { symbol: 'TCS.NS', name: 'Tata Consultancy Services' },
-            { symbol: 'INFY.NS', name: 'Infosys Ltd' },
-            { symbol: 'HDFCBANK.NS', name: 'HDFC Bank Ltd' },
-            { symbol: 'WIPRO.NS', name: 'Wipro Ltd' },
+            {symbol: 'RELIANCE.NS', name: 'Reliance Industries Ltd'},
+            {symbol: 'TCS.NS', name: 'Tata Consultancy Services'},
+            {symbol: 'INFY.NS', name: 'Infosys Ltd'},
+            {symbol: 'HDFCBANK.NS', name: 'HDFC Bank Ltd'},
+            {symbol: 'WIPRO.NS', name: 'Wipro Ltd'},
         ].filter(s =>
             s.name.toLowerCase().includes(query.toLowerCase()) ||
             s.symbol.toLowerCase().includes(query.toLowerCase())
@@ -328,7 +401,10 @@
     }
 
     function renderDropdown(results, dropdown, input, onSelect) {
-        if (results.length === 0) { dropdown.style.display = 'none'; return; }
+        if (results.length === 0) {
+            dropdown.style.display = 'none';
+            return;
+        }
         dropdown.innerHTML = results.map(r => `
             <div class="dropdown-item" onclick='selectStock(${JSON.stringify(r)}, arguments[0])'>
                 <span class="ticker">${r.symbol}</span>
@@ -372,32 +448,31 @@
         pair.className = 'qa-pair';
         pair.innerHTML = `
             <div class="question">Q: ${question}</div>
-            <div class="answer">${answer}</div>
+            <div class="answer">${marked.parse(answer)}</div>
             ${debugInfo ? `<div class="debug-panel" style="display:block">${debugInfo}</div>` : ''}
         `;
         history.appendChild(pair);
-        pair.scrollIntoView({ behavior: 'smooth' });
+        pair.scrollIntoView({behavior: 'smooth'});
     }
 
     // ─── Fetch Stock Data ─────────────────────────────────────────────
     // YOUR TASK: wire this to POST /load
-    async function fetchStockData()
-        {
-            // alert(selectedSymbol1);
-            // alert(selectedSymbol2);
-            // alert(selectedSymbol3);
-            document.getElementById('fetch-loader').style.display = 'block'
-            fetch('http://localhost:8000/load', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-                , body: JSON.stringify({
-                    'sym1': selectedSymbol1,
-                    'sym2': selectedSymbol2,
-                    'sym3': selectedSymbol3
-                })
+    async function fetchStockData() {
+        // alert(selectedSymbol1);
+        // alert(selectedSymbol2);
+        // alert(selectedSymbol3);
+        document.getElementById('fetch-loader').style.display = 'block'
+        fetch('http://localhost:8000/load', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+            , body: JSON.stringify({
+                'sym1': selectedSymbol1,
+                'sym2': selectedSymbol2,
+                'sym3': selectedSymbol3
             })
+        })
             .then(response => {
                 return response.json();
             })
@@ -408,35 +483,35 @@
                 // document.getElementById('output').innerHTML = '<pre>'+JSON.stringify(data, null, 4)+'</pre>';
 
             })
-        }
+    }
 
     // ─── Ask Question ─────────────────────────────────────────────────
     // YOUR TASK: wire this to POST /ask
     async function askQuestion() {
-    const question = document.getElementById('question').value.trim();
-    const debugMode = document.getElementById('debug-mode').checked;
-    if (!question) return;
+        const question = document.getElementById('question').value.trim();
+        const debugMode = document.getElementById('debug-mode').checked;
+        if (!question) return;
 
-    document.getElementById('answer-loader').style.display = 'block';
-    document.getElementById('answer-btn').disabled = true;
+        document.getElementById('answer-loader').style.display = 'block';
+        document.getElementById('answer-btn').disabled = true;
 
-    const response = await fetch('http://localhost:8000/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, debugMode })
-    });
+        const response = await fetch('http://localhost:8000/ask', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({question, debugMode})
+        });
 
-    const data = await response.json();
-    document.getElementById('answer-loader').style.display = 'none';
-    document.getElementById('answer-btn').disabled = false;
-    document.getElementById('question').value = '';
+        const data = await response.json();
+        document.getElementById('answer-loader').style.display = 'none';
+        document.getElementById('answer-btn').disabled = false;
+        document.getElementById('question').value = '';
 
-    const debugInfo = debugMode && data.debugChunks.length
-        ? JSON.stringify(data.debugChunks, null, 2)
-        : null;
+        const debugInfo = debugMode && data.debugChunks.length
+            ? JSON.stringify(data.debugChunks, null, 2)
+            : null;
 
-    appendAnswer(question, data.answer, debugInfo);
-}
+        appendAnswer(question, data.answer, debugInfo);
+    }
 
 
 </script>
