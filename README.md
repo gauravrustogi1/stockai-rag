@@ -217,4 +217,4 @@ This means when you ask "what's the analyst sentiment?", the retrieval system fi
 
 ---
 
-*Built from scratch as a Python learning project. No AI code generation tools were used in writing this codebase — every line was written by hand to develop genuine understanding of RAG internals.*
+*Built from scratch as a Python learning project. No AI code generation tools were used in writing this codebase (except this README.md file 😉) — every line was written by hand to develop genuine understanding of RAG internals.*
